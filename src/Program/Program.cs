@@ -20,7 +20,7 @@ namespace Ucu.Poo.PipesAndFilters
         public static void Main()
         {
             PipeNull pipeNull = new PipeNull();
-            PipeSerial pipeSerial4 = new PipeSerial(new FilterSave(@"filteredimage2.jpg"), pipeNull);
+            PipeSerial pipeSerial4 = new PipeSerial(new FilterPublishDiscord(), pipeNull);
             PipeSerial pipeSerial3 = new PipeSerial(new FilterNegative(), pipeSerial4);
             PipeSerial pipeSerial2 = new PipeSerial(new FilterSave(@"filteredimage1.jpg"), pipeSerial3);
             PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeSerial2);
