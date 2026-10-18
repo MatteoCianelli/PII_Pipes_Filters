@@ -20,16 +20,23 @@ namespace Ucu.Poo.PipesAndFilters
         public static void Main()
         {
             PipeNull pipeNull = new PipeNull();
-            PipeSerial pipeSerial4 = new PipeSerial(new FilterPublishDiscord(), pipeNull);
-            PipeSerial pipeSerial3 = new PipeSerial(new FilterNegative(), pipeSerial4);
-            PipeSerial pipeSerial2 = new PipeSerial(new FilterSave(@"filteredimage1.jpg"), pipeSerial3);
-            PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeSerial2);
+            PipeSerial pipeSerial3 = new PipeSerial(new FilterNegative(), pipeNull);
+            PipeSerial pipeSerial2 = new PipeSerial(new FilterPublishDiscord(), pipeNull);
+            PipeConditionalFork pipeConditionalFork = new PipeConditionalFork(new FilterConditional(), pipeSerial2, pipeSerial3);
+            PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeConditionalFork);
+
+
+            // PipeNull pipeNull = new PipeNull();
+            // PipeSerial pipeSerial4 = new PipeSerial(new FilterPublishDiscord(), pipeNull);
+            // PipeSerial pipeSerial3 = new PipeSerial(new FilterNegative(), pipeSerial4);
+            // PipeSerial pipeSerial2 = new PipeSerial(new FilterSave(@"filteredimage1.jpg"), pipeSerial3);
+            // PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeSerial2);
 
             PictureProvider provider = new PictureProvider();
-            IPicture picture = provider.GetPicture(@"luke.jpg");
+            IPicture picture = provider.GetPicture(@"beer.jpg");
 
             IPicture result = pipeSerial1.Send(picture);
-            provider.SavePicture(result, @"lukefiltered.jpg");
+            provider.SavePicture(result, @"beerfiltered.jpg");
         }
     }
 }
