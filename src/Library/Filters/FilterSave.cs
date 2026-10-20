@@ -11,6 +11,7 @@ namespace Ucu.Poo.PipesAndFilters.Filters
     /// </summary>
     public class FilterSave : IFilter
     {
+        private PictureProvider pictureProvider;
         private string imagePath;
 
         /// <summary>
@@ -19,6 +20,7 @@ namespace Ucu.Poo.PipesAndFilters.Filters
         /// <param name="imagePath">EL Path donde guardar la imagen.</param>
         public FilterSave(string imagePath)
         {
+            this.pictureProvider = new PictureProvider();
             this.imagePath = imagePath;
         }
 
@@ -29,8 +31,7 @@ namespace Ucu.Poo.PipesAndFilters.Filters
         /// <returns>La imagen recibida.</returns>
         public IPicture Filter(IPicture image)
         {
-            PictureProvider pictureProvider = new PictureProvider();
-            pictureProvider.SavePicture(image, this.imagePath);
+            this.pictureProvider.SavePicture(image, this.imagePath);
             return image;
         }
     }
