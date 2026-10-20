@@ -12,14 +12,14 @@ namespace Ucu.Poo.PipesAndFilters.Filters
     /// <summary>
     /// Un filtro que recibe una imagen y la retorna en escala de grises.
     /// </summary>
-    public class FilterConditional : IFilter
+    public class FilterConditional : IFilterConditional
     {
         private CognitiveFace faceApi;
 
         /// <summary>
         /// Obtiene el resultado del filtro.
         /// </summary>
-        public bool HasFace { get; private set; }
+        public bool Result { get; private set; }
 
         public FilterConditional()
         {
@@ -41,12 +41,12 @@ namespace Ucu.Poo.PipesAndFilters.Filters
             CognitiveFace.RecognitionResult result = this.faceApi.Recognize(@"checkedimage.jpg", true);
             if (result.Success && result.FaceFound) // Recognize procesó la imagen y encontró una cara
             {
-                this.HasFace = true;
+                this.Result = true;
                 return provider.GetPicture(@"checkedimage_r_.jpg"); // Recognize agrega '_r_' como sufijo al archivo
             }
             else // Recognize no pudo procesar la imagen.
             {
-                this.HasFace = false;
+                this.Result = false;
                 return image;
             }
         }

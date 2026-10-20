@@ -23,7 +23,7 @@ namespace Ucu.Poo.PipesAndFilters.Pipes
 
         private IPipe falsePipe;
 
-        private FilterConditional filterConditional;
+        private IFilterConditional filterConditional;
 
         /// <summary>
         /// Inicializa una nueva instancia de la clase <see cref="PipeConditionalFork"/>.
@@ -31,7 +31,7 @@ namespace Ucu.Poo.PipesAndFilters.Pipes
         /// <param name="filterConditional">El filtro condicional que se debe aplicar sobre la imagen.</param>
         /// <param name="truePipe">La siguiente pipe si el resultado es verdadero.</param>
         /// <param name="falsePipe">La siguiente pipe si el resultado es falso.</param>
-        public PipeConditionalFork(FilterConditional filterConditional, IPipe truePipe, IPipe falsePipe)
+        public PipeConditionalFork(IFilterConditional filterConditional, IPipe truePipe, IPipe falsePipe)
         {
             this.filterConditional = filterConditional;
             this.truePipe = truePipe;
@@ -47,7 +47,7 @@ namespace Ucu.Poo.PipesAndFilters.Pipes
         {
             IPicture checkedPicture = this.filterConditional.Filter(picture);
 
-            if (this.filterConditional.HasFace)
+            if (this.filterConditional.Result)
             {
                 return this.truePipe.Send(checkedPicture);
             }
