@@ -4,6 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using System.IO.Pipelines;
 using Ucu.Poo.PipesAndFilters.Filters;
 using Ucu.Poo.PipesAndFilters.Pipes;
 
@@ -19,11 +20,19 @@ namespace Ucu.Poo.PipesAndFilters
         /// </summary>
         public static void Main()
         {
+            // Filter Ridge:
             PipeNull pipeNull = new PipeNull();
-            PipeSerial pipeSerial3 = new PipeSerial(new FilterNegative(), pipeNull);
-            PipeSerial pipeSerial2 = new PipeSerial(new FilterPublishDiscord(), pipeNull);
-            PipeConditionalFork pipeConditionalFork = new PipeConditionalFork(new FilterConditional(), pipeSerial2, pipeSerial3);
-            PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeConditionalFork);
+            PipeSerial pipeSerial1 = new PipeSerial(new FilterRidge(), pipeNull);
+
+            // Filter Sharpen
+            // PipeNull pipeNull = new PipeNull();
+            // PipeSerial pipeSerial1 = new PipeSerial(new FilterSharpen(), pipeNull);
+
+            // PipeNull pipeNull = new PipeNull();
+            // PipeSerial pipeSerial3 = new PipeSerial(new FilterNegative(), pipeNull);
+            // PipeSerial pipeSerial2 = new PipeSerial(new FilterPublishDiscord(), pipeNull);
+            // PipeConditionalFork pipeConditionalFork = new PipeConditionalFork(new FilterConditional(), pipeSerial2, pipeSerial3);
+            // PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeConditionalFork);
 
 
             // PipeNull pipeNull = new PipeNull();
@@ -33,10 +42,14 @@ namespace Ucu.Poo.PipesAndFilters
             // PipeSerial pipeSerial1 = new PipeSerial(new FilterGrayscale(), pipeSerial2);
 
             PictureProvider provider = new PictureProvider();
-            IPicture picture = provider.GetPicture(@"beer.jpg");
+            IPicture picture1 = provider.GetPicture(@"beer.jpg");
+            IPicture picture2 = provider.GetPicture(@"luke.jpg");
 
-            IPicture result = pipeSerial1.Send(picture);
-            provider.SavePicture(result, @"beerfiltered.jpg");
+            IPicture result1 = pipeSerial1.Send(picture1);
+            provider.SavePicture(result1, @"beerfiltered.jpg");
+
+            IPicture result2 = pipeSerial1.Send(picture2);
+            provider.SavePicture(result2, @"lukefiltered.jpg");
         }
     }
 }
